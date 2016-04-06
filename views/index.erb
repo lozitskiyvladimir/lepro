@@ -1,0 +1,12 @@
+
+<% @result.each do |row|%>
+ <p>
+ <%= row['content']%>
+ <br/>
+ <br/>
+ Added at: <%= row['created_time']%>
+ <br/>
+ Autor: <%= row['autor']%>
+ <hr/>
+</p>
+<%end%>
