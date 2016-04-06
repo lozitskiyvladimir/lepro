@@ -42,8 +42,8 @@ post '/new' do
   content = params[:content]
   autor   = params[:autor]
   	@db.execute ' insert into Posts (created_time,content,autor) values (datetime(), ?, ?)', [content, autor]
-  	
-  erb "It is your post: #{content}, autor: #{autor}"
+  	redirect to '/'
+  #erb "It is your post: #{content}, autor: #{autor}"
 end
 
 
