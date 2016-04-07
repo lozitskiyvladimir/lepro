@@ -48,6 +48,14 @@ end
 post '/new' do
   content = params[:content]
   autor   = params[:autor]
+
+  	if content.size <= 0 
+  		@error = 'Type post text'
+  		return erb :new
+  	elsif autor.size <= 0
+  		@error = 'Type autor text'	
+  		return erb :new	
+  	end
   	@db.execute ' insert into Posts (created_time,content,autor) values (datetime(), ?, ?)', [content, autor]
   	redirect to '/'
   	erb :new
@@ -67,8 +75,9 @@ post '/details/:post_id'  do
 	post_id = params['post_id']
 	content = params[:content]
 	autor   = params[:autor]
+	
 	@db.execute 'insert into Comments (created_time, content, autor, post_id ) values (datetime(), ?, ?, ?)', [content, autor, post_id]
-	erb "hello, #{content}, #{post_id}, #{autor}"
+	redirect to '/details/' + post_id
 end
 
 
