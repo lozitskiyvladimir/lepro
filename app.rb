@@ -25,7 +25,14 @@ configure do
 		content TEXT,
 		autor TEXT
 	)'
-
+	@db.execute 'CREATE TABLE IF NOT EXISTS Comments 
+	( 
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		created_time DATE,
+		content TEXT,
+		autor TEXT,
+		post_id INTEGER
+	)'
 
 end
 
@@ -43,8 +50,39 @@ post '/new' do
   autor   = params[:autor]
   	@db.execute ' insert into Posts (created_time,content,autor) values (datetime(), ?, ?)', [content, autor]
   	redirect to '/'
+  	erb :new
   #erb "It is your post: #{content}, autor: #{autor}"
 end
+
+get '/details/:post_id' do 
+	 post_id = params['post_id']
+	 result = @db.execute 'select * from Posts where id= ?',[post_id]
+	 @row = result[0]
+ erb :details 
+
+end
+
+post '/details/:post_id'  do
+	post_id = params['post_id']
+	content = params[:content]
+	autor   = params[:autor]
+	@db.execute 'insert into Comments (created_time, content, autor, post_id ) values (datetime(), ?, ?, ?)', [content, autor, post_id]
+	erb "hello, #{content}, #{post_id}, #{autor}"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
